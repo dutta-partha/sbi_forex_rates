@@ -38,9 +38,9 @@ FILE_NAME_WITH_TIME_FORMAT = f"{FILE_NAME_FORMAT} %H:%M"
 
 # Compile the regular expression
 currency_line_regex = re.compile(
-    r"([A-Za-z ]+)\s+(\S{3})(?:/INR){0,1}\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))"
+    r"([A-Za-z ]+)\s+(\S{3})(?:/INR){0,1}\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))\s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))"  # \s+((?:\d{1,3}\.\d{1,2})|(?:\d{1,3}\.\d)|(?:\d{1,3}))"  -> 'PC BUY' field is not there anymore
 )
-header_row_regex = re.compile("(([A-Z]{2,4}) (BUY|SELL))")
+header_row_regex = re.compile("(([A-Z]{2,4}) (BUY|SELL))") # This will not work now as new field names changed which has '\n' character
 
 
 def extract_date_time(reader_obj):
@@ -104,7 +104,16 @@ def dump_data(file_content, save_file=False):
     lines = text_page_2.split("\n")
 
     header_row = lines[0]
-    headers = ["DATE", "PDF FILE"] + [x[0] for x in re.findall(header_row_regex, header_row)]
+    # As of 6-Dec-2023 SBI has changed 'TC BUY' to 'FOREX TRAVEL CARD BUY' and 'TC SELL' to 'FOREX TRAVEL CARD SELL'.
+    # Also, there is no 'PC BUY' any more. So parsing of headers will fail.
+    # To keep the backward compatibility with older data, 'TC BUY' and 'TC SELL' will continue to have same name,
+    # however the value will be filled from new 'FOREX TRAVEL CARD BUY' and 'FOREX TRAVEL CARD SELL' columns.
+    # 'PC BUY' will be retained but will be filled with 0 values.
+
+    headers_custom = ["TT BUY", "TT SELL", "BILL BUY", "BILL SELL", "TC BUY", "TC SELL", "CN BUY", "CN SELL", "PC BUY"]
+
+    #headers = ["DATE", "PDF FILE"] + [x[0] for x in re.findall(header_row_regex, header_row)]
+    headers = ["DATE", "PDF FILE"] + headers_custom
 
     new_data = None
 
@@ -128,6 +137,8 @@ def dump_data(file_content, save_file=False):
                     rows = [x for x in reader]
 
             rates = match.groups()[2:]
+            # Filling 0 value for 'PC BUY'
+            rates = rates + (0,)
 
             pdf_name = extracted_date_time.strftime(FILE_NAME_FORMAT) + ".pdf"
             pdf_file_link = f'https://github.com/sahilgupta/sbi_forex_rates/blob/main/pdf_files/{str(extracted_date_time.year)}/{str(extracted_date_time.month)}/{pdf_name}'
