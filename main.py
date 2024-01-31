@@ -141,7 +141,7 @@ def dump_data(file_content, save_file=False):
             rates = rates + (0,)
 
             pdf_name = extracted_date_time.strftime(FILE_NAME_FORMAT) + ".pdf"
-            pdf_file_link = f'https://github.com/sahilgupta/sbi_forex_rates/blob/main/pdf_files/{str(extracted_date_time.year)}/{str(extracted_date_time.month)}/{pdf_name}'
+            pdf_file_link = f'https://github.com/dutta-partha/sbi_forex_rates/blob/main/pdf_files/{str(extracted_date_time.year)}/{str(extracted_date_time.month)}/{pdf_name}'
 
             new_data = dict(zip(headers, (formatted_date_time, pdf_file_link) + rates))
             logger.debug(f"New rates found: {new_data}")
@@ -233,7 +233,7 @@ def download_latest_file():
 
 def parse_historical_data(save_file=True):
     all_pdfs = sorted(
-        glob.glob("/Users/sahilgupta/code/sbi_forex_rates/**/*.pdf", recursive=True)
+        glob.glob("/Users/dutta-partha/code/sbi_forex_rates/**/*.pdf", recursive=True)
     )
 
     for file_path in all_pdfs:
