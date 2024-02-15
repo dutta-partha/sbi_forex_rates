@@ -442,3 +442,5 @@ NoneType: None
 NoneType: None
 2024-01-31 02:26:14,330 - root - ERROR - No data matching the currency regex found
 NoneType: None
+2024-02-15 10:48:47,676 - urllib3.connectionpool - WARNING - Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fe7e2c64580>: Failed to establish a new connection: [Errno 101] Network is unreachable')': /documents/16012/1400784/FOREX_CARD_RATES.pdf
+2024-02-15 10:49:03,684 - urllib3.connectionpool - WARNING - Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fe7e2c647f0>: Failed to establish a new connection: [Errno 101] Network is unreachable')': /documents/16012/1400784/FOREX_CARD_RATES.pdf
