@@ -478,3 +478,5 @@ NoneType: None
 2024-08-26 10:48:42,627 - urllib3.connectionpool - WARNING - Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='www.sbi.co.in', port=443): Read timed out. (read timeout=10)")': /documents/16012/1400784/FOREX_CARD_RATES.pdf
 2024-09-06 10:48:41,234 - root - ERROR - Unable to extract date and time from the PDF. Aborting.
 NoneType: None
+2024-09-06 16:51:00,548 - root - ERROR - Unable to extract date and time from the PDF. Aborting.
+NoneType: None
