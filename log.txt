@@ -484,3 +484,5 @@ NoneType: None
 NoneType: None
 2024-09-07 16:48:34,393 - root - ERROR - Unable to extract date and time from the PDF. Aborting.
 NoneType: None
+2024-09-08 10:48:37,832 - root - ERROR - Unable to extract date and time from the PDF. Aborting.
+NoneType: None
