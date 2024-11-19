@@ -507,3 +507,5 @@ NoneType: None
 2024-11-13 10:50:59,176 - urllib3.connectionpool - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fe76c676290>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution')': /documents/16012/1400784/FOREX_CARD_RATES.pdf
 2024-11-19 10:50:25,006 - root - ERROR - No data matching the currency regex found
 NoneType: None
+2024-11-19 16:53:11,432 - root - ERROR - No data matching the currency regex found
+NoneType: None
